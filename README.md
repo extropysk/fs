@@ -1,6 +1,62 @@
-# template
+# fs
 
-## client
+## Bucket Policy
+``` json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicListGet",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:List*",
+                "s3:Get*"
+            ],
+            "Resource": "arn:aws:s3:::view-my-property-au"
+        },
+        {
+            "Sid": "PutFiles",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::view-my-property-au/*"
+        }
+    ]
+}
+
+```
+
+## CORS
+``` json
+[
+    {
+        "AllowedHeaders": [
+            "*" // could be defined if needed
+        ],
+        "AllowedMethods": [
+            "HEAD",
+            "PUT",
+            "POST",
+            "GET"
+        ],
+        "AllowedOrigins": [
+            "*" // should be defined once in production
+        ],
+        "ExposeHeaders": [
+            "ETag",
+            "x-amz-meta-custom-header" // not always needed
+        ]
+    }
+]
+
+```
+
+## Client
 
 ``` ts
   const token = '';

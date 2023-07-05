@@ -36,7 +36,7 @@
 [
     {
         "AllowedHeaders": [
-            "*" // could be defined if needed
+            "*"
         ],
         "AllowedMethods": [
             "HEAD",
@@ -45,11 +45,11 @@
             "GET"
         ],
         "AllowedOrigins": [
-            "*" // should be defined once in production
+            "*"
         ],
         "ExposeHeaders": [
             "ETag",
-            "x-amz-meta-custom-header" // not always needed
+            "x-amz-meta-custom-header"
         ]
     }
 ]

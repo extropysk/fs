@@ -13,7 +13,7 @@
                 "s3:List*",
                 "s3:Get*"
             ],
-            "Resource": "arn:aws:s3:::view-my-property-au"
+            "Resource": "arn:aws:s3:::bucket.extropy.sk"
         },
         {
             "Sid": "PutFiles",
@@ -24,7 +24,7 @@
                 "s3:GetObject",
                 "s3:DeleteObject"
             ],
-            "Resource": "arn:aws:s3:::view-my-property-au/*"
+            "Resource": "arn:aws:s3:::bucket.extropy.sk/*"
         }
     ]
 }

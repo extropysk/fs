@@ -2,12 +2,14 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston'
+import { FilesModule } from 'src/files/files.module'
 import { UsersModule } from 'src/users/users.module'
 import * as winston from 'winston'
 
 @Module({
   imports: [
     UsersModule,
+    FilesModule,
     ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.register({ global: true }),
     WinstonModule.forRootAsync({

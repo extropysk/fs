@@ -1,5 +1,5 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common'
-import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiForbiddenResponse, ApiUnauthorizedResponse } from '@nestjs/swagger'
 import { JwtGuard } from 'src/core/guards/jwt.guard'
 
 export const ROLES_KEY = 'roles'
@@ -9,6 +9,7 @@ export function Jwt(...roles: string[]) {
     SetMetadata(ROLES_KEY, roles),
     UseGuards(JwtGuard),
     ApiBearerAuth(),
-    ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
+    ApiForbiddenResponse({ description: 'Forbidden' })
   )
 }

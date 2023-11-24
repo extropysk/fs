@@ -1,8 +1,66 @@
-# template
+# fs
 
-## client
+## Bucket Policy
+``` json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicListGet",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:List*",
+                "s3:Get*"
+            ],
+            "Resource": "arn:aws:s3:::bucket.extropy.sk"
+        },
+        {
+            "Sid": "PutFiles",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::bucket.extropy.sk/*"
+        }
+    ]
+}
 
 ```
+
+## CORS
+``` json
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "HEAD",
+            "PUT",
+            "POST",
+            "GET"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [
+            "ETag",
+            "x-amz-meta-custom-header"
+        ]
+    }
+]
+
+```
+
+## Client
+
+``` ts
+  const token = '';
+
   const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     const data = {
@@ -16,8 +74,7 @@
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMzE2NmE2MWZkOTU2OTExY2RjOTBiY2RmZWVmZWQ5MjNhZWZhODgwZTQ5MTJiNmI1MDgzZjA1ZTNhZjZhN2U1NWIiLCJyb2xlcyI6W10sImlhdCI6MTY4ODUzNjc0MywiZXhwIjoxNjg4NTQwMzQzfQ.d2vT_bnFuFQ9DgU4s-6HDwya0YnY0swrQkiyVMHKpx_pOvE-KHOgQyhYl1PDcCJ1dR0W0lFrzExhquKQHD0Dvg",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
@@ -40,8 +97,6 @@
 
     if (uploadResponse.ok) {
       console.log(`${url}/${fields.key}`);
-    } else {
-      console.error(uploadResponse);
     }
   };
 ```

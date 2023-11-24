@@ -1,33 +1,28 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
-import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston'
+import { LoggerModule } from 'nestjs-pino'
+import pretty from 'pino-pretty'
 import { FilesModule } from 'src/files/files.module'
-import * as winston from 'winston'
 
 @Module({
   imports: [
     FilesModule,
     ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.register({ global: true }),
-    WinstonModule.forRootAsync({
-      useFactory: (configService: ConfigService) => {
+    LoggerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
         return {
-          transports: [
-            new winston.transports.Console({
-              format: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.ms(),
-                nestWinstonModuleUtilities.format.nestLike(process.env.npm_package_name, {
-                  colors: true,
-                  prettyPrint: true,
-                })
-              ),
+          pinoHttp: {
+            level: 'info',
+            autoLogging: false,
+            stream: pretty({
+              colorize: true,
             }),
-          ],
+          },
         }
       },
-      inject: [ConfigService],
     }),
   ],
 })

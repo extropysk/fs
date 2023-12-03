@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  template:
-    image: template
+  fs:
+    image: fs
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -11,3 +11,21 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+    networks:
+      - default
+
+  mongo:
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data/db
+    networks:
+      - default
+
+volumes:
+  mongo:

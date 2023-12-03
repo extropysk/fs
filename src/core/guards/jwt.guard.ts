@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import { Reflector } from '@nestjs/core'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
-import { ROLES_KEY } from 'src/core/decorators/jwt.decorator'
+import { ROLES_KEY } from 'src/core/decorators/auth.decorator'
 
 @Injectable()
 export class JwtGuard implements CanActivate {

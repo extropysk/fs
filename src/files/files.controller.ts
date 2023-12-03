@@ -15,8 +15,8 @@ import {
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { Auth } from 'src/core/decorators/auth.decorator'
 import { Current } from 'src/core/decorators/current.decorator'
-import { Jwt } from 'src/core/decorators/jwt.decorator'
 import { Payload } from 'src/core/interfaces/payload.interface'
 import { BaseDto } from 'src/db/dto/base.dto'
 import { DeleteResultDto } from 'src/db/dto/delete-result.dto'
@@ -29,7 +29,7 @@ import { FilesService } from 'src/files/files.service'
 
 @ApiTags('files')
 @Controller('files')
-@Jwt()
+@Auth()
 export class FilesController {
   constructor(private filesService: FilesService) {}
 

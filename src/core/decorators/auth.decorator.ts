@@ -4,7 +4,7 @@ import { JwtGuard } from 'src/core/guards/jwt.guard'
 
 export const ROLES_KEY = 'roles'
 
-export function Jwt(...roles: string[]) {
+export function Auth(...roles: string[]) {
   return applyDecorators(
     SetMetadata(ROLES_KEY, roles),
     UseGuards(JwtGuard),

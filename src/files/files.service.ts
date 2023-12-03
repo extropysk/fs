@@ -12,8 +12,8 @@ import { Payload } from 'src/core/interfaces/payload.interface'
 import { DATABASE } from 'src/db/database.module'
 import { BaseDto } from 'src/db/dto/base.dto'
 import { CreateFileDto } from 'src/files/dto/create-file.dto'
-import { FileDto } from 'src/files/dto/file.dto'
 import { SignFileDto } from 'src/files/dto/sign-file.dto'
+import { File } from 'src/files/interfaces/file.interface'
 
 const COLLECTION = 'files'
 
@@ -32,7 +32,7 @@ export class FilesService {
   }
 
   async sign(file: SignFileDto, current: Payload): Promise<PresignedPost> {
-    const doc: FileDto = {
+    const doc: File = {
       filename: file.name,
       uploadDate: new Date(),
       length: file.size,
@@ -43,7 +43,7 @@ export class FilesService {
       _id: undefined,
     }
 
-    const { insertedId: _id } = await this.db.collection<FileDto>(COLLECTION).insertOne(doc)
+    const { insertedId: _id } = await this.db.collection<File>(COLLECTION).insertOne(doc)
     return await createPresignedPost(this.s3, {
       Bucket: this.bucket,
       Key: _id.toString(),
@@ -59,8 +59,8 @@ export class FilesService {
     })
   }
 
-  async findOneMetadata(id: ObjectId): Promise<FileDto> {
-    return await this.db.collection<FileDto>(COLLECTION).findOne({ _id: id })
+  async findOneMetadata(id: ObjectId): Promise<File> {
+    return await this.db.collection<File>(COLLECTION).findOne({ _id: id })
   }
 
   streamToFile = (stream): Promise<Buffer> =>
@@ -87,7 +87,7 @@ export class FilesService {
   }
 
   async insert(file: Express.Multer.File, current: Payload, data: CreateFileDto): Promise<BaseDto> {
-    const doc: FileDto = {
+    const doc: File = {
       filename: file.originalname,
       uploadDate: new Date(),
       length: file.size,
@@ -98,7 +98,7 @@ export class FilesService {
       _id: undefined,
     }
 
-    const { insertedId: _id } = await this.db.collection<FileDto>(COLLECTION).insertOne(doc)
+    const { insertedId: _id } = await this.db.collection<File>(COLLECTION).insertOne(doc)
 
     await this.s3.send(
       new PutObjectCommand({
@@ -118,6 +118,6 @@ export class FilesService {
         Key: id.toString(),
       })
     )
-    return await this.db.collection<FileDto>(COLLECTION).deleteOne({ _id: id })
+    return await this.db.collection<File>(COLLECTION).deleteOne({ _id: id })
   }
 }

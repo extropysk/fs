@@ -14,8 +14,8 @@ async function bootstrap() {
   app.useLogger(app.get(Logger))
 
   const config = new DocumentBuilder()
-    .setTitle(process.env.npm_package_name)
-    .setVersion(process.env.npm_package_version)
+    .setTitle(configService.get<string>('APP_NAME'))
+    .setVersion(configService.get<string>('APP_VERSION'))
     .addBearerAuth()
     .build()
 

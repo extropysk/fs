@@ -1,15 +1,14 @@
 import { BaseDto } from 'src/db/dto/base.dto'
 
-export class FileMetadataDto {
+class MetadataDto {
   userId?: string
   isPublic?: boolean
 }
 
 export class FileDto extends BaseDto {
-  metadata: FileMetadataDto
+  metadata: MetadataDto
   filename: string
   uploadDate: Date
   length: number
   chunkSize?: number
-  publicUrl?: string
 }

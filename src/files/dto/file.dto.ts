@@ -1,18 +1,15 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator'
-import { File } from 'src/files/interfaces/file.interface'
+import { BaseDto } from 'src/db/dto/base.dto'
 
-export class FileDto implements File {
-  @IsString()
-  name: string
+export class FileMetadataDto {
+  userId?: string
+  isPublic?: boolean
+}
 
-  @IsString()
-  type: string
-
-  @IsNumber()
-  @IsOptional()
-  size?: number
-
-  @IsNumber()
-  @IsOptional()
-  lastModified?: number
+export class FileDto extends BaseDto {
+  metadata: FileMetadataDto
+  filename: string
+  uploadDate: Date
+  length: number
+  chunkSize?: number
+  publicUrl?: string
 }
